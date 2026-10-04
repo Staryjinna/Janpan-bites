@@ -29,14 +29,12 @@ function janpanHtml() {
         return html
           .replace(/\{\{partial:(\w+)\}\}/g, (_, n) => read(`src/partials/${n}.html`))
           .replace(/\{\{gallery\}\}/g, () => {
-            const keys = Object.keys(m).filter((k) => !k.startsWith('gallery-') || true)
-            // gallery folder first, then the headline photos
+            const keys = Object.keys(m)
             const ordered = [...keys.filter((k) => k.startsWith('gallery-')), ...keys.filter((k) => !k.startsWith('gallery-'))]
-            const tilt = [-2.5, 1.8, -1, 2.6, -1.8, 1.2, -2.2, 2]
             return ordered
               .map((k, i) => {
                 const tall = m[k].h / m[k].w > 0.95
-                return `<figure class="gal-item ${tall ? 'is-tall' : 'is-wide'}" style="--r:${tilt[i % tilt.length]}deg"><div class="gal-frame">${img(m, k, 'Janpan Bites — fresh from the kitchen', 'gal-img', '(min-width:768px) 40vw, 78vw', '', 'data-gal-img')}</div></figure>`
+                return `<figure class="gal-item ${tall ? 'is-tall' : 'is-wide'}"><div class="gal-frame">${img(m, k, 'Janpan Bites — fresh from the kitchen', 'gal-img', '(min-width:768px) 36vw, 76vw', '', 'data-gal-img')}</div><figcaption><span>${String(i + 1).padStart(2, '0')}</span></figcaption></figure>`
               })
               .join('\n')
           })

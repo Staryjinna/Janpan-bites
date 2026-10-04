@@ -1,30 +1,30 @@
-# Janpan Bites — preview site
+# Janpan Bites
 
-2-page static site (Home + Workshops). Vite · Tailwind v4 · GSAP + ScrollTrigger · Lenis.
+Editorial 2-page site (Home + Workshops) for Janpan Bites, an eggless café & bakery in Adyar, Chennai.
+Vite · Tailwind v4 · GSAP + ScrollTrigger · Lenis. Static output, deploys to Vercel/Netlify as-is.
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # → dist/  (deploy to Vercel / Netlify as a static site)
+npm run build    # → dist/
 ```
 
-## Swapping in real photos
-Drop JPG/PNG/WebP files into `public/images/` **using the same names** (overwrite the placeholders):
+**Vercel:** framework preset *Vite*, build `npm run build`, output `dist`. Netlify reads `netlify.toml`.
+
+## Photos (the one thing that makes it feel real)
+Every photo slot currently holds a soft placeholder. Overwrite these files in `public/images/` with real photos, same names:
 
 | File | Used for |
 | --- | --- |
-| `hero.jpg` | Home hero arch (portrait works best, ~4:5) |
-| `bento.jpg` | Bento Cakes card · hero float · Bento workshop |
-| `brownie.jpg` | Brownies card · hero float · Brownie & Blondie + Plum Cake workshops |
-| `cheesecake.jpg` | Cheesecake card · Cheesecake workshop |
-| `bun.jpg` | Korean Cheese Buns card |
-| `cafe-1.jpg` | The Café big image (landscape) |
-| `janani.jpg` | Meet Janani + workshops hero bubble (portrait) |
+| `hero.jpg` | Home hero arch — portrait, about 4:5 |
+| `bento.jpg` · `brownie.jpg` · `cheesecake.jpg` · `bun.jpg` | "What we bake" cards (portrait, 4:5) · bento/brownie also in hero + workshops |
+| `plum-cake.jpg` | Plum Cake workshop |
+| `cafe-1.jpg` | The Café image — landscape |
+| `janani.jpg` | Meet Janani — portrait |
 
-Any extra photo in `public/images/` or `public/images/gallery/` automatically appears in the scrolling gallery.
-`npm run dev` / `npm run build` auto-generate responsive WebP (480–1920w) into `public/images/optimized/`.
-(Delete a placeholder's `.jpg` only if you're replacing it with a different extension.)
+Any extra photo dropped into `public/images/` or `public/images/gallery/` appears in the scrolling gallery automatically.
+`npm run dev` / `npm run build` convert everything to responsive WebP.
 
-## Content to finish
-- **Reviews**: `index.html`, section `#reviews` — replace name + text in the 4 cards, remove the `rev-sample` chip.
-- **YouTube link**: `src/partials/footer.html` (currently `youtube.com/@janpanbites`, unverified).
+## Still to fill in
+- **Reviews:** `index.html`, section `#reviews` — replace name + text, delete the `rev-sample` chip.
+- **YouTube link:** `src/partials/footer.html` (currently `youtube.com/@janpanbites`, unverified).
