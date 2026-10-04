@@ -50,7 +50,7 @@ function initGallery() {
       onUpdate: (self) => { if (!touched) sc.scrollLeft = self.progress * (sc.scrollWidth - sc.clientWidth) * 0.5 },
     })
     gsap.from(sc.querySelectorAll('.gal-item'), {
-      y: 80, opacity: 0, rotation: 6, duration: 1, stagger: 0.1, ease: 'power3.out',
+      y: 70, opacity: 0, duration: 1.1, stagger: 0.1, ease: 'power3.out',
       scrollTrigger: { trigger: sc, start: 'top 85%', once: true },
     })
   }

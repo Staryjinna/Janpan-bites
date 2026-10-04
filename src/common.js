@@ -109,7 +109,7 @@ function initTilt() {
       const r = el.getBoundingClientRect()
       const px = (e.clientX - r.left) / r.width - 0.5
       const py = (e.clientY - r.top) / r.height - 0.5
-      ry(px * 14); rx(-py * 14); ly(-10)
+      ry(px * 8); rx(-py * 8); ly(-8)
       el.classList.add('is-lifted')
     }
     const reset = () => { rx(0); ry(0); ly(0); el.classList.remove('is-lifted') }
@@ -160,32 +160,43 @@ export function initReveals() {
   if (reduced) { document.documentElement.classList.remove('motion'); return }
 
   // intro timeline (starts as the curtain lifts)
-  const tl = gsap.timeline({ delay: 0.75, defaults: { ease: 'power4.out' } })
-  const arch = document.querySelector('[data-hero-arch]')
-  if (arch) {
-    tl.from(arch, { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 40px 40px)', duration: 1.3, ease: 'power4.inOut' }, 0)
-    const img = arch.querySelector('[data-hero-img]')
-    if (img) {
-      tl.fromTo(img, { scale: 1.45 }, { scale: 1.05, duration: 2.6, ease: 'power3.out' }, 0)
-      gsap.to(img, { scale: 1.22, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
+  const tl = gsap.timeline({ delay: 0.8, defaults: { ease: 'power4.out' } })
+  const media = document.querySelector('[data-hero-media]')
+  if (media) {
+    if (media.classList.contains('hero-media')) {
+      tl.from(media, { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.5, ease: 'power4.inOut' }, 0)
+      const img = media.querySelector('[data-hero-img]')
+      tl.fromTo(img, { scale: 1.5 }, { scale: 1.06, duration: 2.8, ease: 'power3.out' }, 0)
+      gsap.to(img, { scale: 1.24, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
+    } else {
+      tl.from(media, { opacity: 0, scale: 0.92, duration: 1.6 }, 0.1)
     }
   }
-  tl.to(words, { y: 0, duration: 1.1, stagger: 0.07 }, 0.15)
-  tl.to('[data-hero-fade]', { opacity: 1, y: 0, duration: 0.9, stagger: 0.12 }, 0.55)
+  tl.to(words, { y: 0, duration: 1.2, stagger: 0.08 }, 0.15)
   gsap.set('[data-hero-fade]', { y: 24 })
-  tl.from('.float, .whisk', { scale: 0, rotation: -25, duration: 1, stagger: 0.12, ease: 'back.out(1.6)' }, 0.9)
+  tl.to('[data-hero-fade]', { opacity: 1, y: 0, duration: 1, stagger: 0.12 }, 0.6)
+  if (document.querySelector('.hero-float')) tl.from('.hero-float', { opacity: 0, y: 60, duration: 1.4, stagger: 0.18 }, 1.1)
+
+  // images unveil with a soft mask + settle
+  gsap.utils.toArray('[data-img-reveal]').forEach((el) => {
+    const img = el.querySelector('img')
+    gsap.set(el, { clipPath: 'inset(100% 0% 0% 0%)' })
+    const t = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 90%', once: true }, defaults: { ease: 'power4.inOut' } })
+    t.to(el, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3 })
+    if (img) t.fromTo(img, { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'power3.out' }, 0)
+  })
 
   // staggered scroll reveals
   const items = gsap.utils.toArray('[data-reveal]')
-  gsap.set(items, { y: 46 })
+  gsap.set(items, { y: 40 })
   ScrollTrigger.batch(items, {
     start: 'top 90%', once: true,
-    onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1, stagger: 0.14, ease: 'power3.out', overwrite: 'auto' }),
+    onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, duration: 1.1, stagger: 0.14, ease: 'power3.out', overwrite: 'auto' }),
   })
 
   // any later split headings (closing CTA)
   gsap.utils.toArray('[data-split]').slice(1).forEach((h) => {
     const ws = splitWords(h)
-    gsap.to(ws, { y: 0, duration: 1.1, stagger: 0.09, ease: 'power4.out', scrollTrigger: { trigger: h, start: 'top 85%', once: true } })
+    gsap.to(ws, { y: 0, duration: 1.2, stagger: 0.09, ease: 'power4.out', scrollTrigger: { trigger: h, start: 'top 85%', once: true } })
   })
 }
